@@ -105,22 +105,29 @@ class BinaryTree {
    * Create a helper function nextLargerHelper, which will use a BFS approach to traverse all nodes and update the value of aboveLowerBound when appropriate. For each node visited:
    *   - check whether aboveLowerBound value should be updated
    *   - push non-null children of current onto the queue of nodes yet to be visited
+   * Call nextLargerHelper on the tree's root.
+   * Return the value of aboveLowerBound 
    */
   
   nextLarger(lowerBound) {
     if (!this.root) return null;
 
     let aboveLowerBound = null;
-
     const toVisitQueue = [this.root];
+
     while(toVisitQueue.length > 0) {
       const current = toVisitQueue.shift();
+      const shouldReplace = aboveLowerBound === null || (aboveLowerBound !== null && current.val < aboveLowerBound);
 
-      if (aboveLowerBound === null && current.val > lowerBound) {
-        aboveLowerBound = current.val;
-      } else if (aboveLowerBound !== null && current.val > lowerBound && current.val < aboveLowerBound) {
+      if (current.val > lowerBound && shouldReplace) {
         aboveLowerBound = current.val;
       }
+
+      // if (aboveLowerBound === null && current.val > lowerBound) {
+      //   aboveLowerBound = current.val;
+      // } else if (aboveLowerBound !== null && current.val > lowerBound && current.val < aboveLowerBound) {
+      //   aboveLowerBound = current.val;
+      // }
 
       if (current.left) toVisitQueue.push(current.left);
       if (current.right) toVisitQueue.push(current.right);     
