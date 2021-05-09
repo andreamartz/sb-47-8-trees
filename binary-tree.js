@@ -39,7 +39,22 @@ class BinaryTree {
    * the length of the longest path from the root to a leaf. */
 
   maxDepth() {
+    if (!this.root) return 0;
 
+    function maxDepthHelper(node) {
+      // if a leaf node, count it
+      if (!node.left && !node.right) return 1;
+      // if only a right child, count it and recurse on right child node
+      if (!node.left) return maxDepthHelper(node.right) + 1;
+      // if only a left child, count it and recurse on left child node
+      if (!node.right) return maxDepthHelper(node.left) + 1;
+      // if both nodes exist, count the level and recurse on both
+      return (
+        Math.max(maxDepthHelper(node.left), maxDepthHelper(node.right)) + 1
+      );
+    }
+
+    return maxDepthHelper(this.root);
   }
 
   /** maxSum(): return the maximum sum you can obtain by traveling along a path in the tree.
