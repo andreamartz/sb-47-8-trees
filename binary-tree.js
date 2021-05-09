@@ -159,4 +159,19 @@ class BinaryTree {
   }
 }
 
+const binaryTreeNode6 = new BinaryTreeNode(6, null, null);
+const binaryTreeNode5 = new BinaryTreeNode(5, null, null);
+const binaryTreeNode4 = new BinaryTreeNode(4, null, binaryTreeNode6);
+const binaryTreeNode3 = new BinaryTreeNode(3, binaryTreeNode4, binaryTreeNode5);
+const binaryTreeNode2 = new BinaryTreeNode(2, null, null);
+const binaryTreeNode1 = new BinaryTreeNode(1, binaryTreeNode2, binaryTreeNode3);
+
+const binaryTree = new BinaryTree(binaryTreeNode1);
+
+console.log(binaryTree.minDepth());  // 2
+console.log(binaryTree.maxDepth());  // 4
+console.log(binaryTree.maxSum());  // 18
+console.log(binaryTree.nextLarger(2));  // 3
+
+
 module.exports = { BinaryTree, BinaryTreeNode };
