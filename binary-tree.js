@@ -60,8 +60,41 @@ class BinaryTree {
   /** maxSum(): return the maximum sum you can obtain by traveling along a path in the tree.
    * The path doesn't need to start at the root, but you can't visit a node more than once. */
 
-  maxSum() {
+  /** maxSum is recursive, so it starts with the bottom nodes and returns values upwards through the tree until it gets to the node it was called on */
 
+  // See also LeetCode 124
+  // Resource: https://www.youtube.com/watch?v=6cA_NDtpyz8
+
+  /** Strategy:
+   * Use recursion so that you are essentially starting at the lowest leaf in each subtree.
+   * Initialize maximumSum to be negative infinity.
+   * Use a helper function (maxSumHelper) to 
+   *  - Find the max sum in the left subtree and right subtree.
+   *  - Determine if there is a new max sum.
+   *  - Determine the bigger of the left subtree max sum and right subtree max sum.
+   * Call maxSumHelper on the root node of the tree or subtree being evaluated.
+   * Return the maximum path sum.
+   */
+  maxSum() {
+    // Initialize maximumSum to be negative infinity
+    let maximumSum = Number.NEGATIVE_INFINITY;
+  /** 
+   * Purpose of maxSumHelper: to compute a new sum and determine when to replace the maximumSum with that value. 
+  */
+    function maxSumHelper(node) {
+      if (node === null) return 0;
+      // leftMaxSum and rightMaxSum are the left subtree max sum and right subtree max sum under `node`
+      const leftMaxSum = Math.max(maxSumHelper(node.left), 0);
+      const rightMaxSum = Math.max(maxSumHelper(node.right), 0);
+      // compare the current max sum with the max sum from the subtree with `node` as its root and replace max sum if necessary
+      maximumSum = Math.max(maximumSum, node.val + leftMaxSum + rightMaxSum);
+      // value to return reflects whether we'll return `node's` left child max sum or its right child max sum (we can't choose both if they're different)
+      // value to return to `node` must be at least zero
+      return Math.max(leftMaxSum + node.val, rightMaxSum + node.val);
+    }
+
+    maxSumHelper(this.root);
+    return maximumSum;
   }
 
   /** nextLarger(lowerBound): return the smallest value in the tree
